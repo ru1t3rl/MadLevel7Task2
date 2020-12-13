@@ -1,6 +1,7 @@
 package tech.ru1t3rl.madlevel7task2.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -67,7 +68,7 @@ class QuestionsFragment : Fragment() {
         viewModel.getQuestions()
 
         viewModel.questions.observe(viewLifecycleOwner, {
-            questions = it
+            questions.addAll(it)
             setQuestions()
         })
     }
@@ -75,11 +76,14 @@ class QuestionsFragment : Fragment() {
     private fun setQuestions() {
         binding.tvCurrentQuestion.text =
             getString(R.string.tv_current_question, currentQuestion + 1, questions.size)
+
         binding.tvQuestion.text = questions[currentQuestion].question
         binding.rbFirstChoice.text = questions[currentQuestion].choices[0]
         binding.rbSecondChoice.text = questions[currentQuestion].choices[1]
         binding.rbThirdChoice.text = questions[currentQuestion].choices[2]
         correctAnswer = questions[currentQuestion].correctAnswer
         currentQuestion++
+
+        Log.i("question", binding.tvQuestion.text.toString())
     }
 }
